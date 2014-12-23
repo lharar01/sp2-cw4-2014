@@ -1,6 +1,7 @@
 package app;
 
 public class EmptySea extends Ship {
+
 	public EmptySea() {
 		length = 4;
 		for(int i=0; i<hit.length; i++) {
@@ -8,8 +9,7 @@ public class EmptySea extends Ship {
 		}
 	}
 	
-	/* This method overrides shootAt(int
-	row, int column) that is inherited from Ship, and always returns false to indicate that nothing was hit. */
+	/* This method overrides shootAt(int row, int column) that is inherited from Ship, and always returns false to indicate that nothing was hit. */
 	@Override
 	public boolean shootAt(int row, int column) {
 		hit[0] = true;
@@ -23,6 +23,10 @@ public class EmptySea extends Ship {
 		return false;
 	}
 	
+	/*public boolean isHit() {
+		return hit[0];
+	}*/
+	
 //	@Override
 //	public String getShipType() {
 //		return "battleship";
@@ -33,5 +37,7 @@ public class EmptySea extends Ship {
 		/* From 4.4: "Returns a single-character String to use in the
 Ocean's print method (see below)." */
 		return hit[0] ? "-" : ".";
+		//return "E";
 	}
+	
 }

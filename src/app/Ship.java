@@ -1,10 +1,11 @@
 package app;
 
 public class Ship {
-	protected int bowRow;
-	protected int bowColumn;
+
+	protected int bowRow = -1;
+	protected int bowColumn = -1;
 	protected int length = 0;
-	protected boolean horizontal;
+	protected boolean horizontal = true;
 	protected boolean[] hit = new boolean[4];
 	
 	// Getters and Setters START
@@ -46,14 +47,67 @@ public class Ship {
 	another ship, or touch another ship (vertically, horizontally, or diagonally), and it
 	must not stick out beyond the array. Does not actually change either the ship or
 	the Ocean, just says whether it is legal to do so. */
+	
+	// * Consider breaking this method down to smaller chunks *
 	public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
+		Ship[][] ships = ocean.getShipArray();
 		if(horizontal) {
+			// See if ship fits horizontally
 			if(row >= 0 && row <= 9 && column >= 0 && column+this.length <= 9) {
+				// Check for ships in row above and below the proposed ship location
+				for(int rowCheck=row-1; rowCheck<=row+1; rowCheck+=2) {
+					if(rowCheck >= 0 && rowCheck <= 9) {
+						for(int colCheck=column-1; colCheck<=column+length; colCheck++) {
+							if(colCheck >= 0 && colCheck <= 9) {
+								if(!ships[rowCheck][colCheck].getShipType().equals("unset")) {
+									return false;
+								}
+							}
+						}
+					}
+				}
+				// Check for ships left and right of the proposed ship location.
+				if(column-1 >= 0) {
+					if(!ships[row][column-1].getShipType().equals("unset")) {
+						return false;
+					}
+				}
+				if(column+1 <= 9) {
+					if(!ships[row][column+1].getShipType().equals("unset")) {
+						return false;
+					}
+				}
+				
 				return true;
 			}
 		}
-		else {
+		else { // Not horizontal
+			// See if ship fits horizontally
 			if(column >= 0 && column <= 9 && row >= 0 && row+this.length <= 9) {
+				// Check for ships in column left and right of the proposed ship location
+				for(int colCheck=column-1; colCheck<=column+1; colCheck+=2) {
+					if(colCheck >= 0 && colCheck <= 9) {
+						for(int rowCheck=row-1; rowCheck<=row+length; rowCheck++) {
+							if(rowCheck >= 0 && rowCheck <= 9) {
+								if(!ships[rowCheck][colCheck].getShipType().equals("unset")) {
+									return false;
+								}
+							}
+						}
+					}
+				}
+				// Check for ships left and right of the proposed ship location.
+				if(row-1 >= 0) {
+					if(!ships[row-1][column].getShipType().equals("unset")) {
+						return false;
+					}
+				}
+				if(row+1 <= 9) {
+					if(!ships[row+1][column].getShipType().equals("unset")) {
+						return false;
+					}
+				}
+				
 				return true;
 			}
 		}
@@ -105,7 +159,7 @@ public class Ship {
 	
 	/* Return true if every part of the ship has been hit, false otherwise. (Copied verbatim from instructions) */
 	public boolean isSunk() {
-		for(int i=0; i<hit.length; i++) {
+		for(int i=0; i<length; i++) {
 			if(hit[i] == false) {
 				return false;
 			}
@@ -142,13 +196,15 @@ public class Ship {
 		return false;
 	}
 	
-	/*@Override
+	@Override
 	public String toString() {
-		if(isSunk()) {
+		return "S";
+		/*if(isSunk()) {
 			return "x";
-		}
+		}*/
 		// if()
 		// But how does the toString method know which location to check if it has been hit?
 		// If I am able to use this way, comment out all Ship's subclasses' toString() methods.
-	}*/
+	}
+	
 }

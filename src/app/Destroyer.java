@@ -1,8 +1,9 @@
 package app;
 
 public class Destroyer extends Ship {
+	
 	public Destroyer() {
-		length = 4;
+		length = 2;
 		for(int i=0; i<hit.length; i++) {
 			hit[i] = false;
 		}
@@ -13,10 +14,4 @@ public class Destroyer extends Ship {
 		return "destroyer";
 	}
 	
-	@Override
-	public String toString() {
-		/* From 4.4: "Returns a single-character String to use in the
-Ocean's print method (see below)." */
-		return "CHANGE ME!";
-	}
 }
