@@ -56,21 +56,20 @@ public class Ocean {
 		return ships;
 	}
 	
-	// I ONLY PLACED 1 BATTLESHIP. I NEED TO PLACE 3 DESTROYERS, 2 CRUISERS AND 4 SUBMARINES AS WELL.
+	/* Place all ten ships randomly on the (initially empty)
+	ocean. Place larger ships before smaller ones, or you may end up with no legal
+	place to put a large ship. You will want to use the Random class in the java.util
+	package, so look that up in the Java API. */
 	public void placeAllShipsRandomly() {
-		/* Place all ten ships randomly on the (initially empty)
-ocean. Place larger ships before smaller ones, or you may end up with no legal
-place to put a large ship. You will want to use the Random class in the java.util
-package, so look that up in the Java API. */
 		Random rand;
 		Ship[] shipArray = new Ship[10];
 		shipArray[0] = new Battleship();
 		shipArray[1] = new Cruiser();
 		shipArray[2] = new Cruiser();
-		for(int i=0; i<3; i++) {
+		for(int i=3; i<6; i++) {
 			shipArray[i] = new Destroyer();
 		}
-		for(int i=0; i<4; i++) {
+		for(int i=6; i<10; i++) {
 			shipArray[i] = new Submarine();
 		}
 		
@@ -106,24 +105,26 @@ package, so look that up in the Java API. */
 		return false;
 	}
 	
+	/* Prints the ocean. To aid the user, row numbers should be displayed along
+	the left edge of the array, and column numbers should be displayed along the top.
+	Numbers should be 0 to 9, not 1 to 10. The top left corner square should be 0,
+	0. 
+	
+	Use:
+	'S' to indicate a location that you have fired upon and hit a (real) ship,
+	'-' to indicate a location that you have fired upon and found nothing there,
+	'x' to indication location containing a sunken ship, and
+	'.' to indicate a location that you have never fired upon.
+	
+	This is the only method in the Ocean class that does any input/output, and it is
+	never called from within the Ocean class (except possibly during debugging), only
+	from the BattleshipGame class. */
 	public void print() {
-		/* Prints the ocean. To aid the user, row numbers should be displayed along
-the left edge of the array, and column numbers should be displayed along the top.
-Numbers should be 0 to 9, not 1 to 10. The top left corner square should be 0,
-0. 
-
-Use:
-'S' to indicate a location that you have fired upon and hit a (real) ship,
-'-' to indicate a location that you have fired upon and found nothing there,
-'x' to indication location containing a sunken ship, and
-'.' to indicate a location that you have never fired upon.
-
-This is the only method in the Ocean class that does any input/output, and it is
-never called from within the Ocean class (except possibly during debugging), only
-from the BattleshipGame class. */
+		System.out.print(" ");
 		for(int i=0; i<ships[0].length; i++) {
-			System.out.print(" " + i);
+			System.out.print("    " + i);
 		}
+		System.out.println("\n");
 		String symbol = " ";
 		for(int row=0; row<ships.length; row++) {
 			System.out.print(row);
@@ -143,25 +144,18 @@ from the BattleshipGame class. */
 				}
 				else {
 					symbol = ships[row][col].toString();
-					/*if(ships[row][col].toString() == "E") {
-						if()
-					}
-					else {
-						// Otherwise, print a question mark to show that something went wrong.
-						symbol = '?';
-					}*/
 				}
-				/*if(ships[row][col].isPlaceHit(row, col)) {
-					symbol = 'S';
-				}
-				else {
-					if() {
-						symbol = '-'; 
-					}
-				}*/
-				System.out.print(" " + symbol);
+				System.out.print("    " + symbol);
 			}
+			System.out.println("\n");
 		}
+		System.out.println();
+		System.out.println("Legend: ");
+		System.out.println("'S' indicates a location that you have fired upon and hit a ship");
+		System.out.println("'-' indicates a location that you have fired upon and found nothing there");
+		System.out.println("'x' indicates location containing a sunken ship");
+		System.out.println("'.' indicates a location that you have never fired upon");
+		
 	}
 	
 }
