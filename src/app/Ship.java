@@ -50,7 +50,6 @@ public class Ship {
 	
 	// * Consider breaking this method down to smaller chunks *
 	public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
-		Ship[][] ships = ocean.getShipArray();
 		if(horizontal) {
 			// See if ship fits horizontally
 			if(row >= 0 && row <= 9 && column >= 0 && column+this.length <= 9) {
@@ -59,7 +58,7 @@ public class Ship {
 					if(rowCheck >= 0 && rowCheck <= 9) {
 						for(int colCheck=column-1; colCheck<=column+length; colCheck++) {
 							if(colCheck >= 0 && colCheck <= 9) {
-								if(!ships[rowCheck][colCheck].getShipType().equals("unset")) {
+								if(!ocean.getShipInLocation(rowCheck, colCheck).getShipType().equals("unset")) {
 									return false;
 								}
 							}
@@ -68,12 +67,12 @@ public class Ship {
 				}
 				// Check for ships left and right of the proposed ship location.
 				if(column-1 >= 0) {
-					if(!ships[row][column-1].getShipType().equals("unset")) {
+					if(!ocean.getShipInLocation(row, column-1).getShipType().equals("unset")) {
 						return false;
 					}
 				}
 				if(column+1 <= 9) {
-					if(!ships[row][column+1].getShipType().equals("unset")) {
+					if(!ocean.getShipInLocation(row, column+1).getShipType().equals("unset")) {
 						return false;
 					}
 				}
@@ -89,7 +88,7 @@ public class Ship {
 					if(colCheck >= 0 && colCheck <= 9) {
 						for(int rowCheck=row-1; rowCheck<=row+length; rowCheck++) {
 							if(rowCheck >= 0 && rowCheck <= 9) {
-								if(!ships[rowCheck][colCheck].getShipType().equals("unset")) {
+								if(!ocean.getShipInLocation(rowCheck, colCheck).getShipType().equals("unset")) {
 									return false;
 								}
 							}
@@ -98,12 +97,12 @@ public class Ship {
 				}
 				// Check for ships left and right of the proposed ship location.
 				if(row-1 >= 0) {
-					if(!ships[row-1][column].getShipType().equals("unset")) {
+					if(!ocean.getShipInLocation(row-1, column).getShipType().equals("unset")) {
 						return false;
 					}
 				}
 				if(row+1 <= 9) {
-					if(!ships[row+1][column].getShipType().equals("unset")) {
+					if(!ocean.getShipInLocation(row+1, column).getShipType().equals("unset")) {
 						return false;
 					}
 				}
@@ -123,16 +122,15 @@ public class Ship {
 		this.bowRow = row;
 		this.bowColumn = column;
 		this.horizontal = horizontal;
-		Ship[][] ships = ocean.getShipArray();
 		
 		if(horizontal) {
 			for(int i=0; i<this.length; i++) {
-				ships[row][column+i] = this;
+				ocean.setShipInLocation(this, row, column+i);
 			}
 		}
 		else {
 			for(int i=0; i<this.length; i++) {
-				ships[row+i][column] = this;
+				ocean.setShipInLocation(this, row+i, column);
 			}
 		}
 	}

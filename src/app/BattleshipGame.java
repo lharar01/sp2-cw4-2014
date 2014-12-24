@@ -22,22 +22,45 @@ public class BattleshipGame {
 	
 	private static void runGame() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Press any key to start the game...");
+		System.out.print("Press Enter to start the game...");
 		scanner.nextLine();
 		Ocean ocean = new Ocean();
+		ocean.placeAllShipsRandomly();
+		int row;
+		int column;
+		boolean shipHit;
 		
 		// run loop of getting input and displaying results...
 		while(!ocean.isGameOver()) {
 			System.out.println();
 			ocean.print();
-			
-			int row;
-			int col;
+			System.out.println();
+
 			row = getRowOrColInput(scanner, "row");
-			col = getRowOrColInput(scanner, "col");
+			column = getRowOrColInput(scanner, "column");
+			
+			ocean.shootAt(row, column);
+			shipHit = ocean.getShipInLocation(row, column).shootAt(row, column);
+			
+			if(shipHit) {
+				System.out.println("hit");
+				if(ocean.getShipInLocation(row, column).isSunk()) {
+					System.out.println("You just sank a " + ocean.getShipInLocation(row, column).getShipType());
+				}
+			}
+			else {
+				System.out.println("\n**miss**");
+			}
+			
+//			scanner.nextLine(); // To solve an issue of the program skipping getting the input
+//			System.out.print("Press Enter to continue...");
+//			scanner.nextLine();
 			
 			// consider using methods where appropriate...
 			// Think if anything belongs outside of this class, as it is the app driver...
+			// Congrats / well done
+			// You completed the game with X shots
+			// (optional) You're amazing / well done / not bad / good effort / better luck next time!
 		}
 		
 		scanner.close();

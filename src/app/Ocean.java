@@ -56,6 +56,21 @@ public class Ocean {
 		return ships;
 	}
 	
+	public Ship getShipInLocation(int row, int column) {
+		if(row >= 0 && row <= 9 && column >= 0 && column <= 9) {
+			return ships[row][column];
+		}
+		return new Ship();
+	}
+	
+	public boolean setShipInLocation(Ship ship, int row, int column) {
+		if(row >= 0 && row <= 9 && column >= 0 && column <= 9) {
+			ships[row][column] = ship;
+			return true;
+		}
+		return false;
+	}
+	
 	/* Place all ten ships randomly on the (initially empty)
 	ocean. Place larger ships before smaller ones, or you may end up with no legal
 	place to put a large ship. You will want to use the Random class in the java.util
