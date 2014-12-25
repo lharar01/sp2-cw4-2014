@@ -3,7 +3,7 @@ package app;
 public class EmptySea extends Ship {
 
 	public EmptySea() {
-		length = 4;
+		length = 1;
 		for(int i=0; i<hit.length; i++) {
 			hit[i] = false;
 		}

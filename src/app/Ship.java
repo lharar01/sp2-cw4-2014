@@ -17,16 +17,24 @@ public class Ship {
 		return bowRow;
 	}
 	
-	public void setBowRow(int bowRow) {
-		this.bowRow = bowRow;
+	public boolean setBowRow(int bowRow) {
+		if(bowRow >= 0 && bowRow <= 9) {
+			this.bowRow = bowRow;
+			return true;
+		}
+		return false;
 	}
 	
 	public int getBowColumn() {
 		return bowColumn;
 	}
 	
-	public void setBowColumn(int bowColumn) {
-		this.bowColumn = bowColumn;
+	public boolean setBowColumn(int bowColumn) {
+		if(bowColumn >= 0 && bowColumn <= 9) {
+			this.bowColumn = bowColumn;
+			return true;
+		}
+		return false;
 	}
 	
 	public int getLength() {

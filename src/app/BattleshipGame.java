@@ -19,7 +19,9 @@ public class BattleshipGame {
 				+ "- 2 Cruisers   (3 spaces long)\n"
 				+ "- 3 destroyers (2 spaces long)\n"
 				+ "- 4 submarines (1 space long)\n"
-				+ "Your objective is to find and sink all the ships in the fleet.\n");
+				+ "Your objective is to find and sink all the ships in the fleet.\n\n"
+				+ "Tip: No ship is placed in the immediate surrounding of another ship.\nThus if you sank a ship, don't bother "
+				+ "looking for other ships around it!\nGood luck!\n");
 	}
 	
 	private static int runGame() {

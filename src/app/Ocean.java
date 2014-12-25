@@ -116,10 +116,11 @@ public class Ocean {
 		}
 	}
 	
-	/* Returns true if the given location contains a ship, false if it does not. */
-	public boolean isOccupied(int row, int column) {
-		return ships[row][column].getShipType() != "unset";
-	}
+//  Unneeded as of now.
+//	/* Returns true if the given location contains a ship, false if it does not. */
+//	public boolean isOccupied(int row, int column) {
+//		return ships[row][column].getShipType() != "unset";
+//	}
 	
 	/* Returns true if the given location contains a real ship, still afloat, (not an EmptySea), false if it does not.
 	 * In addition, this method updates the number of shots that have been fired, and the number of hits. */
