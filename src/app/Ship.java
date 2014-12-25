@@ -54,7 +54,7 @@ public class Ship {
 			// See if ship fits horizontally
 			if(row >= 0 && row <= 9 && column >= 0 && column+this.length <= 9) {
 				// Check for ships in row above and below the proposed ship location
-				for(int rowCheck=row-1; rowCheck<=row+1; rowCheck+=2) {
+				for(int rowCheck=row-1; rowCheck<=row+1; rowCheck++) {
 					if(rowCheck >= 0 && rowCheck <= 9) {
 						for(int colCheck=column-1; colCheck<=column+length; colCheck++) {
 							if(colCheck >= 0 && colCheck <= 9) {
@@ -65,17 +65,17 @@ public class Ship {
 						}
 					}
 				}
-				// Check for ships left and right of the proposed ship location.
-				if(column-1 >= 0) {
-					if(!ocean.getShipInLocation(row, column-1).getShipType().equals("unset")) {
-						return false;
-					}
-				}
-				if(column+1 <= 9) {
-					if(!ocean.getShipInLocation(row, column+1).getShipType().equals("unset")) {
-						return false;
-					}
-				}
+//				// Check for ships left and right of the proposed ship location.
+//				if(column-1 >= 0) {
+//					if(!ocean.getShipInLocation(row, column-1).getShipType().equals("unset")) {
+//						return false;
+//					}
+//				}
+//				if(column+1 <= 9) {
+//					if(!ocean.getShipInLocation(row, column+1).getShipType().equals("unset")) {
+//						return false;
+//					}
+//				}
 				
 				return true;
 			}
@@ -84,7 +84,7 @@ public class Ship {
 			// See if ship fits horizontally
 			if(column >= 0 && column <= 9 && row >= 0 && row+this.length <= 9) {
 				// Check for ships in column left and right of the proposed ship location
-				for(int colCheck=column-1; colCheck<=column+1; colCheck+=2) {
+				for(int colCheck=column-1; colCheck<=column+1; colCheck++) {
 					if(colCheck >= 0 && colCheck <= 9) {
 						for(int rowCheck=row-1; rowCheck<=row+length; rowCheck++) {
 							if(rowCheck >= 0 && rowCheck <= 9) {
@@ -95,17 +95,17 @@ public class Ship {
 						}
 					}
 				}
-				// Check for ships left and right of the proposed ship location.
-				if(row-1 >= 0) {
-					if(!ocean.getShipInLocation(row-1, column).getShipType().equals("unset")) {
-						return false;
-					}
-				}
-				if(row+1 <= 9) {
-					if(!ocean.getShipInLocation(row+1, column).getShipType().equals("unset")) {
-						return false;
-					}
-				}
+//				// Check for ships left and right of the proposed ship location.
+//				if(row-1 >= 0) {
+//					if(!ocean.getShipInLocation(row-1, column).getShipType().equals("unset")) {
+//						return false;
+//					}
+//				}
+//				if(row+1 <= 9) {
+//					if(!ocean.getShipInLocation(row+1, column).getShipType().equals("unset")) {
+//						return false;
+//					}
+//				}
 				
 				return true;
 			}

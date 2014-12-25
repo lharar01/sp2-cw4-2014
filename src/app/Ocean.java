@@ -75,7 +75,7 @@ public class Ocean {
 	ocean. Place larger ships before smaller ones, or you may end up with no legal
 	place to put a large ship. You will want to use the Random class in the java.util
 	package, so look that up in the Java API. */
-	public void placeAllShipsRandomly() {
+	public void placeAllShipsRandomly(boolean testing) {
 		Random rand;
 		Ship[] shipArray = new Ship[10];
 		shipArray[0] = new Battleship();
@@ -94,13 +94,25 @@ public class Ocean {
 			int col;
 			boolean horizontal;
 			//Battleship battleship = new Battleship();
+			int counter = 0;
 			do {
+				counter++;
 				row = rand.nextInt(10);
 				col = rand.nextInt(10);
 				horizontal = rand.nextInt(2) == 0 ? false : true;
 			}
-			while(!shipArray[i].okToPlaceShipAt(row, col, horizontal, this));
-			shipArray[i].placeShipAt(row, col, horizontal, this);
+			while(!shipArray[i].okToPlaceShipAt(row, col, horizontal, this) && counter <= 1000);
+			// This prevents an infinite loop
+			if(counter == 1000 && !shipArray[i].okToPlaceShipAt(row, col, horizontal, this)) {
+				System.out.println("Error placing ship in ocean.");
+				System.exit(1);
+			}
+			else {
+				shipArray[i].placeShipAt(row, col, horizontal, this);
+				if(testing) {
+					System.out.println("For testing: " + shipArray[i].getShipType() + " placed " + (shipArray[i].isHorizontal() ? "horizontally" : "vertically") + " in " + shipArray[i].getBowRow() + ", " + shipArray[i].getBowColumn());
+				}
+			}
 		}
 	}
 	
@@ -111,13 +123,21 @@ public class Ocean {
 	
 	/* Returns true if the given location contains a real ship, still afloat, (not an EmptySea), false if it does not.
 	 * In addition, this method updates the number of shots that have been fired, and the number of hits. */
+	// I made this method call the relevant ship's shootAt method, because:
+	// - this Ocean's method needs to afterwards increment the "shipsSunk" counter
+	// - It doesn't make much sense for the BattleshipGame class to interact with the Ship class, nor does it make sense for it to
+	// have to call 2 different shootAt methods.
 	public boolean shootAt(int row, int column) {
 		shotsFired++;
 		if(ships[row][column].getShipType() != "unset" && !ships[row][column].isSunk()) {
 			hitCount++;
-			return true;
+			//return true;
 		}
-		return false;
+		boolean shootResult = ships[row][column].shootAt(row, column);
+		if(ships[row][column].isSunk()) {
+			shipsSunk++;
+		}
+		return shootResult;
 	}
 	
 	/* Prints the ocean. To aid the user, row numbers should be displayed along
@@ -145,7 +165,7 @@ public class Ocean {
 		for(int row=0; row<ships.length; row++) {
 			System.out.print(row);
 			for(int col=0; col<ships[row].length; col++) {
-				if(ships[row][col].toString() == "S") {
+				if(ships[row][col].toString().equals("S")) {
 					if(ships[row][col].isSunk()) {
 						symbol = "x";
 					}
