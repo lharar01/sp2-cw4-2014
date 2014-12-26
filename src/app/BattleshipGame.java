@@ -2,6 +2,17 @@ package app;
 
 import java.util.Scanner;
 
+/**
+ * <p>This class is the app driver of the Battleship game application.</p>
+ * <p>To run the game, it utilises class <code>Ocean</code>, which in turn interacts with class <code>Ship</code>
+ * and its subclasses</p>.
+ * <p>This game has a testing feature which allows the user to see where each ship was placed and in which
+ * orientation. To enable this feature, the user needs to enter the word "testing" at game load (when prompted).</p>
+ * 
+ * @author Liran_and_Di
+ * @version 1.0
+ * @since 17th December 2014
+ */
 public class BattleshipGame {
 	
 	public static void main(String[] args) {
@@ -61,14 +72,6 @@ public class BattleshipGame {
 			else {
 				System.out.println("\n*miss*");
 			}
-			
-//			scanner.nextLine(); // To solve an issue of the program skipping getting the input
-//			System.out.print("Press Enter to continue...");
-//			scanner.nextLine();
-			
-			
-			// consider using methods where appropriate...
-			// Think if anything belongs outside of this class, as it is the app driver...
 		}
 		scanner.close();
 		
@@ -85,7 +88,7 @@ public class BattleshipGame {
 		boolean typeMismatch;
 		boolean illegalInput;
 		
-		// The following THREE "do-while" loops do the following:
+		// The following "do-while" loop does the following:
 		// - assumes typeMismatch and illegalInput to be true unless proven otherwise.
 		// - Keeps asking for input while there are errors (wrong type or illegal input).
 		
@@ -123,8 +126,7 @@ public class BattleshipGame {
 		return input;
 	}
 	
-	public static void displayGameResults(int shots) {
-		
+	private static void displayGameResults(int shots) {
 		System.out.println("\n--------------------------------------");
 		System.out.println("You sank all the ships with " + shots + " shots.");
 		String winMessage;
@@ -158,7 +160,7 @@ public class BattleshipGame {
 		System.out.println("--------------------------------------");
 	}
 	
-	public static void quitGame() {
+	private static void quitGame() {
 		System.out.println("\n-------------------------------");
 		System.out.println("Thanks for playing Battleship!");
 		System.out.println("-------------------------------");

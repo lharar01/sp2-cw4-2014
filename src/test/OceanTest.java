@@ -160,7 +160,7 @@ public class OceanTest {
 		int shipRow = -1, shipCol = -1;
 		for(int row=0; row<10 && shipRow == -1; row++) {
 			for(int col=0; col<10 && shipRow == -1; col++) {
-				if(ocean.getShipInLocation(row, col).getShipType() != "unset") {
+				if(!ocean.getShipInLocation(row, col).getShipType().equals("unset")) {
 					shipRow = row;
 					shipCol = col;
 				}

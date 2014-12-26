@@ -2,6 +2,18 @@ package app;
 
 import java.util.Random;
 
+/**
+ * <p>This class represents the ocean in the game Battleship. It is a part of the Battleship game application,
+ * which is run by the class <code>BattleshipGame</code>.</p>
+ * <p>This class regularly interacts with class <code>Ship</code>.</p>
+ * <p>To get started, after instantiation of an object of this class, the instance method
+ * <code>placeAllShipsRandomly</code></p> is invoked in order to place 10 ships in this Ocean: 1 Battleship,
+ * 2 Cruisers, 3 Destroyers and 4 Submarines. After that, the Ocean is ready and the game can start.</p>
+ * 
+ * @author Liran_and_Di
+ * @version 1.0
+ * @since 17th December 2014
+ */
 public class Ocean {
 
 	private Ship[][] ships = new Ship[10][10];
@@ -43,7 +55,7 @@ public class Ocean {
 	public boolean isGameOver() {
 		for(int row=0; row<ships.length; row++) {
 			for(int col=0; col<ships[row].length; col++) {
-				if(ships[row][col].getShipType() != "unset" && !ships[row][col].isSunk()) {
+				if(isOccupied(row, col) && !ships[row][col].isSunk()) {
 					return false;
 				}
 			}
@@ -77,24 +89,16 @@ public class Ocean {
 	package, so look that up in the Java API. */
 	public void placeAllShipsRandomly(boolean testing) {
 		Random rand;
-		Ship[] shipArray = new Ship[10];
-		shipArray[0] = new Battleship();
-		shipArray[1] = new Cruiser();
-		shipArray[2] = new Cruiser();
-		for(int i=3; i<6; i++) {
-			shipArray[i] = new Destroyer();
-		}
-		for(int i=6; i<10; i++) {
-			shipArray[i] = new Submarine();
-		}
+		int counter;
+		int row;
+		int col;
+		boolean horizontal;
+		Ship[] shipArray = generateShipFleetArray();
 		
 		for(int i=0; i<shipArray.length; i++) {
 			rand = new Random();
-			int row;
-			int col;
-			boolean horizontal;
-			//Battleship battleship = new Battleship();
-			int counter = 0;
+			counter = 0;
+			
 			do {
 				counter++;
 				row = rand.nextInt(10);
@@ -102,9 +106,11 @@ public class Ocean {
 				horizontal = rand.nextInt(2) == 0 ? false : true;
 			}
 			while(!shipArray[i].okToPlaceShipAt(row, col, horizontal, this) && counter <= 1000);
-			// This prevents an infinite loop
+
+			// This prevents an infinite loop. (Although after through testing this method doesn't seem to take longer
+			// than 50 loops to find a legal random place for any ship)
 			if(counter == 1000 && !shipArray[i].okToPlaceShipAt(row, col, horizontal, this)) {
-				System.out.println("Error placing ship in ocean.");
+				System.out.println("Error placing ship in ocean. Please restart the game.");
 				System.exit(1);
 			}
 			else {
@@ -116,11 +122,24 @@ public class Ocean {
 		}
 	}
 	
-//  Unneeded as of now.
-//	/* Returns true if the given location contains a ship, false if it does not. */
-//	public boolean isOccupied(int row, int column) {
-//		return ships[row][column].getShipType() != "unset";
-//	}
+	private Ship[] generateShipFleetArray() {
+		Ship[] shipArray = new Ship[10];
+		shipArray[0] = new Battleship();
+		shipArray[1] = new Cruiser();
+		shipArray[2] = new Cruiser();
+		for(int i=3; i<6; i++) {
+			shipArray[i] = new Destroyer();
+		}
+		for(int i=6; i<10; i++) {
+			shipArray[i] = new Submarine();
+		}
+		return shipArray;
+	}
+	
+	/* Returns true if the given location contains a ship, false if it does not. */
+	public boolean isOccupied(int row, int column) {
+		return !ships[row][column].getShipType().equals("unset");
+	}
 	
 	/* Returns true if the given location contains a real ship, still afloat, (not an EmptySea), false if it does not.
 	 * In addition, this method updates the number of shots that have been fired, and the number of hits. */
@@ -130,7 +149,7 @@ public class Ocean {
 	// have to call 2 different shootAt methods.
 	public boolean shootAt(int row, int column) {
 		shotsFired++;
-		if(ships[row][column].getShipType() != "unset" && !ships[row][column].isSunk()) {
+		if(isOccupied(row, column) && !ships[row][column].isSunk()) {
 			hitCount++;
 			//return true;
 		}
