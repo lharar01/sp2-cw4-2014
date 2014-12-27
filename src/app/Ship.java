@@ -7,7 +7,7 @@ package app;
  * <p>The subclasses of this class are: <code>EmptySea</code>, <code>Battleship</code>,
  * <code>Cruiser</code>, <code>Destroyer</code> and <code>Submarine</code>.</p>
  * 
- * @author Liran_and_Di
+ * @author Liran Harary (lharar01, 12837230)
  * @version 1.0
  * @since 17th December 2014
  */
@@ -109,7 +109,7 @@ public class Ship {
 	/**
 	 * Sets this Ship's {@link #horizontal}.
 	 * 
-	 * @param horizontal
+	 * @param horizontal  This Ship's orientation.
 	 */
 	public void setHorizontal(boolean horizontal) {
 		this.horizontal = horizontal;
@@ -184,10 +184,10 @@ public class Ship {
 	 * <p>Places this Ship in the <code>Ocean</code> object received as an argument.</p>
 	 * <p>This involves the following actions:</p>
 	 * <ul>
-	 * </li>Setting {@link #bowRow} to <code>row</code>'s value.</li>
-	 * </li>Setting {@link #bowColumn} to <code>column</code>'s value.</li>
-	 * </li>Setting {@link #horizontal} to <code>horizontal</code>'s value.</li>
-	 * </li>Using <code>Ocean</code>'s <code>setShipInLocation</code> method to place this Ship in the
+	 * <li>Setting {@link #bowRow} to <code>row</code>'s value.</li>
+	 * <li>Setting {@link #bowColumn} to <code>column</code>'s value.</li>
+	 * <li>Setting {@link #horizontal} to <code>horizontal</code>'s value.</li>
+	 * <li>Using <code>Ocean</code>'s <code>setShipInLocation</code> method to place this Ship in the
 	 * <code>Ocean</code>.</li>
 	 * </ul>
 	 * <p>It should be noted that a precondition to using this method is invoking the method

@@ -185,17 +185,4 @@ public class OceanTest {
 		assertFalse("Wrong answer", ocean.shootAt(emptySeaRow, emptySeaCol));
 	}
 
-	// Remove later.
-	@Test
-	public void testPrint() {
-		Ocean ocean = new Ocean();
-		ocean.placeAllShipsRandomly(true);
-		for(int row=0; row<10; row++) {
-			for(int col=0; col<10; col++) {
-				ocean.getShipArray()[row][col].shootAt(row,col);
-			}
-		}
-		ocean.print();
-	}
-
 }

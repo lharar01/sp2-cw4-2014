@@ -5,7 +5,7 @@ package app;
  * <p>It is a part of the Battleship game application, which is run by the class <code>BattleshipGame</code>.</p>
  * <p>Its toString method returns "Destroyer".</p>
  * 
- * @author Liran_and_Di
+ * @author Liran Harary (lharar01, 12837230)
  * @version 1.0
  * @since 17th December 2014
  */

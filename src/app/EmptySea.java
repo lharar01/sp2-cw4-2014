@@ -6,7 +6,7 @@ package app;
  * <p>The length of this "Ship" is 1, it returns false when shot at and when inquired if it is sunk, and
  * its toString method returns "-" if it has been shot at and "." if it hasn't.</p>
  * 
- * @author Liran_and_Di
+ * @author Liran Harary (lharar01, 12837230)
  * @version 1.0
  * @since 17th December 2014
  */

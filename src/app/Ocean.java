@@ -7,10 +7,10 @@ import java.util.Random;
  * which is run by the class <code>BattleshipGame</code>.</p>
  * <p>This class regularly interacts with class <code>Ship</code>.</p>
  * <p>To get started, after instantiation of an object of this class, the instance method
- * <code>placeAllShipsRandomly</code></p> is invoked in order to place 10 ships in this Ocean: 1 Battleship,
+ * <code>placeAllShipsRandomly</code> is invoked in order to place 10 ships in this Ocean: 1 Battleship,
  * 2 Cruisers, 3 Destroyers and 4 Submarines. After that, the Ocean is ready and the game can start.</p>
  * 
- * @author Liran_and_Di
+ * @author Liran Harary (lharar01, 12837230)
  * @version 1.0
  * @since 17th December 2014
  */
@@ -127,7 +127,7 @@ public class Ocean {
 	
 	/**
 	 * <p>Sets the <code>Ship</code> sent as an argument in the <code>row</code> and <code>column</code>
-	 * sent as arguments; only if the row and column are not outside </p> the bounds of the {@link #ships} array</p>
+	 * sent as arguments; only if the row and column are not outside the bounds of the {@link #ships} array.</p>
 	 * <p>Returns whether or not the operation was legal and performed.</p>
 	 * 
 	 * @param ship    <code>Ship</code> to set in location.
@@ -251,10 +251,10 @@ public class Ocean {
 	 * <p>This method has been made to call the relevant <code>Ship</code>'s <code>shootAt</code> method, because:</p>
 	 * <ul>
 	 * <li>For this Ocean's {@link #shootAt(int, int)} method to know if to increment the {@link #shipsSunk} or not,
-	 * it needs to check if the relevant <code>Ship</code> is sunk <strong>after</string> its <code>shootAt</code>
+	 * it needs to check if the relevant <code>Ship</code> is sunk <strong>after</strong> its <code>shootAt</code>
 	 *  method has been invoked.</li>
 	 * <li>It doesn't make much sense for the BattleshipGame class to interact with the Ship class, nor does it make sense
-	 * for it to have to call 2 different shootAt methods to achieve the one goal of shooting at a <code><Ship</code></li>
+	 * for it to have to call 2 different shootAt methods to achieve the one goal of shooting at a <code>Ship</code></li>
 	 * </ul>
 	 * 
 	 * @param row     Row to shoot at in the ocean. 
