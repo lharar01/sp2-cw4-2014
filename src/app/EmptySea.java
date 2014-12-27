@@ -11,7 +11,11 @@ package app;
  * @since 17th December 2014
  */
 public class EmptySea extends Ship {
-
+	
+	/**
+	 * <p>Sets the <code>length</code> to 1.</p>
+	 * <p>Sets all elements in the <code>hit</code> array to <code>false</code>.</p>
+	 */
 	public EmptySea() {
 		length = 1;
 		for(int i=0; i<hit.length; i++) {
@@ -19,29 +23,36 @@ public class EmptySea extends Ship {
 		}
 	}
 	
-	/* This method overrides shootAt(int row, int column) that is inherited from Ship, and always returns false to indicate that nothing was hit. */
+	/** <p>This method overrides <code>Ship</code>'s <code>shootAt</code> method, and always returns <code>false</code>
+	 * to indicate that nothing was hit, as this is location contains empty sea.</p>
+	 * <p>Additionally it marks <code>hit[0]</code> as <code>true</code>, to indicate that this location has been
+	 * shot at.</p>
+	 * 
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean shootAt(int row, int column) {
 		hit[0] = true;
 		return false;
 	}
 	
-	/* This method overrides isSunk() that is inherited from
-	Ship, and always returns false to indicate that you didn't sink anything. */
+	/** This method overrides <code>Ship</code>'s <code>isSunk</code> method, and always returns <code>false</code>
+	 * to indicate that no (real) Ships have been sunk.
+	 * 
+	 * @return <code>false</code>
+	*/
 	@Override
 	public boolean isSunk() {
 		return false;
 	}
 	
-	/*public boolean isHit() {
-		return hit[0];
-	}*/
-	
-//	@Override
-//	public String getShipType() {
-//		return "battleship";
-//	}
-	
+	/**
+	 * <p>Returns "-" if this <code>Ship</code> has been fired upon, and "." if it has not.</p>
+	 * <p>This symbol is then used in the <code>Ocean</code>'s <code>print</code> method to denote the state of the
+	 * <code>Ship</code>.</p>
+	 * 
+	 * @return hit[0]
+	 */
 	@Override
 	public String toString() {
 		/* From 4.4: "Returns a single-character String to use in the

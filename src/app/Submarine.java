@@ -11,6 +11,10 @@ package app;
  */
 public class Submarine extends Ship {
 	
+	/**
+	 * <p>Sets the <code>length</code> to 1.</p>
+	 * <p>Sets all elements in the <code>hit</code> array to <code>false</code>.</p>
+	 */
 	public Submarine() {
 		length = 1;
 		for(int i=0; i<hit.length; i++) {
@@ -18,6 +22,11 @@ public class Submarine extends Ship {
 		}
 	}
 	
+	/**
+	 * Returns this <code>Ship's</code> type.
+	 * 
+	 * @return "Submarine"
+	 */
 	@Override
 	public String getShipType() {
 		return "Submarine";

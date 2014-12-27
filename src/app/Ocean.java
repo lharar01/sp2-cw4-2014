@@ -200,6 +200,14 @@ public class Ocean {
 		} // end for
 	}
 	
+	/**
+	 * <p>Places 10 <code>Ships</code> into the <code>shipArray</code>: 1 <code>Battleship</code>, 2 <code>Cruisers</code>,
+	 * 3 <code>Destroyers</code> and 4 <code>Submarines</code>.</p>
+	 * <p>Then returns the array.</p>
+	 * <p>Used by {@link #placeAllShipsRandomly}</p>
+	 * 
+	 * @return shipArray
+	 */
 	private Ship[] generateShipFleetArray() {
 		Ship[] shipArray = new Ship[10];
 		shipArray[0] = new Battleship();
@@ -214,22 +222,49 @@ public class Ocean {
 		return shipArray;
 	}
 	
-	/* Returns true if the given location contains a ship, false if it does not. */
+	/**
+	 * Returns whether or not the location received as arguments contains a <code>Ship</code>.
+	 * 
+	 * @param row     Row to check if is occupied
+	 * @param column  Column to check if is occupied
+	 * @return <code>true</code> if the given location contains a ship, <code>false</code> if it does not.
+	 */
 	public boolean isOccupied(int row, int column) {
+		// Returns if the ship type at the given row and column is "unset", which indicates that it is either a general
+		// Ship (not a subclass of it) or an EmptySea (since this subclass does not override Ship's getShipType method.
 		return !ships[row][column].getShipType().equals("unset");
 	}
 	
-	/* Returns true if the given location contains a real ship, still afloat, (not an EmptySea), false if it does not.
-	 * In addition, this method updates the number of shots that have been fired, and the number of hits. */
-	// I made this method call the relevant ship's shootAt method, because:
-	// - this Ocean's method needs to afterwards increment the "shipsSunk" counter
-	// - It doesn't make much sense for the BattleshipGame class to interact with the Ship class, nor does it make sense for it to
-	// have to call 2 different shootAt methods.
+	/**
+	 * <p>Shoots at a given row and column in the ocean. This entails:</p>
+	 * <ul>
+	 * <li>Incrementing {@link #shotsFired} by 1.</li>
+	 * <li>Incrementing {@link #hitCount} by 1 if the given location {@link #isOccupied(int, int)} and the
+	 * <code>Ship</code> at the given location is not sunk.</li>
+	 * <li>Invoking the method shootAt of the <code>Ship</code> at the given location and storing the result in
+	 * <code>shootResult</code>.</li>
+	 * <li>Incrementing {@link #shipsSunk} by 1 if the <code>Ship</code> at the given location is not sunk after
+	 * shooting it.</li>
+	 * <li>Returning the <code>shootResult</code>.</li>
+	 * </ul>
+	 * 
+	 * <p>This method has been made to call the relevant <code>Ship</code>'s <code>shootAt</code> method, because:</p>
+	 * <ul>
+	 * <li>For this Ocean's {@link #shootAt(int, int)} method to know if to increment the {@link #shipsSunk} or not,
+	 * it needs to check if the relevant <code>Ship</code> is sunk <strong>after</string> its <code>shootAt</code>
+	 *  method has been invoked.</li>
+	 * <li>It doesn't make much sense for the BattleshipGame class to interact with the Ship class, nor does it make sense
+	 * for it to have to call 2 different shootAt methods to achieve the one goal of shooting at a <code><Ship</code></li>
+	 * </ul>
+	 * 
+	 * @param row     Row to shoot at in the ocean. 
+	 * @param column  Column  to shoot at in the ocean.
+	 * @return <code>true</code> if the shot hit a part of the relevant Ship AND the Ship is not sunk.
+	 */
 	public boolean shootAt(int row, int column) {
 		shotsFired++;
 		if(isOccupied(row, column) && !ships[row][column].isSunk()) {
 			hitCount++;
-			//return true;
 		}
 		boolean shootResult = ships[row][column].shootAt(row, column);
 		if(ships[row][column].isSunk()) {
@@ -238,31 +273,35 @@ public class Ocean {
 		return shootResult;
 	}
 	
-	/* Prints the ocean. To aid the user, row numbers should be displayed along
-	the left edge of the array, and column numbers should be displayed along the top.
-	Numbers should be 0 to 9, not 1 to 10. The top left corner square should be 0,
-	0. 
-	
-	Use:
-	'S' to indicate a location that you have fired upon and hit a (real) ship,
-	'-' to indicate a location that you have fired upon and found nothing there,
-	'x' to indication location containing a sunken ship, and
-	'.' to indicate a location that you have never fired upon.
-	
-	This is the only method in the Ocean class that does any input/output, and it is
-	never called from within the Ocean class (except possibly during debugging), only
-	from the BattleshipGame class. */
+	/**
+	 * <p>Prints the ocean's map with row and column numbers to aid the user.</p>
+	 * <p>The legend of symbols for it is as follows:</p>
+	 * <ul>
+	 * <li>'S' indicates a location that has been fired upon and contains a hit but not sunk <code>Ship</code>.</li>
+	 * <li>'-' indicates a location that has been fired upon and does not contain a real <code>Ship</code>
+	 * (i.e. is EmptySea).</li>
+	 * <li>'x' indicates location containing a sunken <code>Ship</code>.</li>
+	 * <li>'.' indicates a location that has not been fired upon.</li>
+	 * </ul>
+	 * <p>Utilises {@link #printLegend()} to print the legend of symbols for the ocean's map.</p>
+	 */
 	public void print() {
 		System.out.println("The ocean:");
 		System.out.print(" ");
-		for(int i=0; i<ships[0].length; i++) {
-			System.out.print(" " + i);
+		// Print column numbers (0-9)
+		for(int colNumber=0; colNumber<ships[0].length; colNumber++) {
+			System.out.print(" " + colNumber);
 		}
 		System.out.println("");
+		// Initialise the symbol to be printed
 		String symbol = " ";
+		// For all Ships in the ships array:
 		for(int row=0; row<ships.length; row++) {
+			// Print the row number at the start of the row
 			System.out.print(row);
 			for(int col=0; col<ships[row].length; col++) {
+				// If the current Ship's toString method returns S, it is a real Ship (not EmptySea); so determine
+				// if it is: sunk, just hit or never shot at. Store the correct symbol in the symbol variable.
 				if(ships[row][col].toString().equals("S")) {
 					if(ships[row][col].isSunk()) {
 						symbol = "x";
@@ -275,21 +314,29 @@ public class Ocean {
 							symbol = ".";
 						}
 					}
-				}
+				} // end if
+				// Otherwise, the Ship is EmptySea, so just use its toString's return value as the symbol, as that
+				// method returns "-" if it has been shot at, and "." if it has not.
 				else {
 					symbol = ships[row][col].toString();
 				}
 				System.out.print(" " + symbol);
-			}
+			} // end for
 			System.out.println("");
-		}
-		System.out.println();
-		System.out.println("Legend: ");
+		}// end for
+		// Print the legend.
+		printLegend();
+	}
+	
+	/**
+	 * <p>Print the legend of symbols for the ocean's map.</p>
+	 * <p>This method is currently only used by the {@link #print()} method.</p>
+	 */
+	public void printLegend() {
+		System.out.println("\nLegend: ");
 		System.out.println("'S' indicates a location that you have fired upon and hit a ship");
 		System.out.println("'-' indicates a location that you have fired upon and found nothing there");
 		System.out.println("'x' indicates location containing a sunken ship");
 		System.out.println("'.' indicates a location that you have never fired upon");
-		
 	}
-	
 }

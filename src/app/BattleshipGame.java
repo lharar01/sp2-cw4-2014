@@ -15,6 +15,11 @@ import java.util.Scanner;
  */
 public class BattleshipGame {
 	
+	/**
+	 * Calls the methods which drive the game.
+	 * 
+	 * @param args  arguments
+	 */
 	public static void main(String[] args) {
 		displayInstructions();
 		int shotsFired = runGame();
@@ -22,6 +27,9 @@ public class BattleshipGame {
 		quitGame();
 	}
 	
+	/**
+	 * Prints the game's instructions
+	 */
 	private static void displayInstructions() {
 		System.out.println("--== Welcome to Liran's Battleship game! ==--\n");
 		System.out.println("Instructions: \nThe computer has randomly placed its fleet of ships in the ocean."
@@ -35,33 +43,58 @@ public class BattleshipGame {
 				+ "looking for other ships around it!\nGood luck!\n");
 	}
 	
+	/**
+	 * <p>Runs the game. In charge of the following:</p>
+	 * <ul>
+	 * <li>Turning testing mode on or off.</li>
+	 * <li>Creating a new <code>Ocean<code>.</li>
+	 * <li>Doing the following while the game is not over:
+	 * 	<ul>
+	 *   <li>Displaying the Ocean's current map.</li>
+	 * 	 <li>Getting <code>row</code> and <code>column</code> input from the user with the aid of
+	 *   {@link #getRowOrColInput(Scanner, String)}.</li>
+	 * 	 <li>Invoking <code>Ocean</code>'s <code>shootAt</code> method.</li>
+	 * 	 <li>Printing hit and miss messages.</li>
+	 * 	</ul>
+	 * </li>
+	 * <li>Displaying the Ocean's current map one last time.</li>
+	 * <li>Returning the number of shots fired in the game.</li>
+	 * </ul>
+	 * @return The number of shots fired in the game.
+	 */
 	private static int runGame() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Press Enter to start playing...\n(or type in \"testing\" and press enter for testing mode) ");
+		// Get initial input from the user, and set testing to true if the user's input was "testing", and false otherwise.
 		String initialInput = scanner.nextLine();
-		boolean debugging = initialInput.equals("testing") ? true : false;
+		boolean testing = initialInput.equals("testing") ? true : false;
 		Ocean ocean = new Ocean();
-		if(debugging) {
+		if(testing) {
 			System.out.println();
 		}
-		ocean.placeAllShipsRandomly(debugging);
+		// Invoke this method with the testing value. If testing is turned on, this method will print the Ships
+		// that have been placed, their locations and their orientation.
+		ocean.placeAllShipsRandomly(testing);
 		int row;
 		int column;
 		boolean shipHit;
 		
-		// run loop of getting input and displaying results...
+		// While game is not over, does the following in a loop: display the ocean map, gets input and displays results.
 		while(!ocean.isGameOver()) {
+			// Print the Ocean map
 			System.out.println();
 			ocean.print();
 			System.out.println();
 			
 			System.out.println("(Enter 'q' to quit)");
+			// Use the method getRowOrColInput to get row and column input from the user.
 			row = getRowOrColInput(scanner, "row");
 			column = getRowOrColInput(scanner, "column");
 			
+			// Shoot at the Ship the user asked to and store the result in shipHit.
 			shipHit = ocean.shootAt(row, column);
-			//shipHit = ocean.getShipInLocation(row, column).shootAt(row, column);
 			
+			/// If the current Ship was hit, display hit message. If it was also sunk, display the relevant messages.
 			if(shipHit) {
 				System.out.println("\n*hit*");
 				if(ocean.getShipInLocation(row, column).isSunk()) {
@@ -69,12 +102,14 @@ public class BattleshipGame {
 					System.out.println("Ships left in the enemy's fleet: " + (10 - ocean.getShipsSunk()) );
 				}
 			}
+			// Otherwise, display miss message.
 			else {
 				System.out.println("\n*miss*");
 			}
-		}
+		} // end while
 		scanner.close();
 		
+		// Print the Ocean map
 		System.out.println();
 		ocean.print();
 		System.out.println();

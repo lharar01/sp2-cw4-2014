@@ -10,7 +10,11 @@ package app;
  * @since 17th December 2014
  */
 public class Cruiser extends Ship {
-
+	
+	/**
+	 * <p>Sets the <code>length</code> to 3.</p>
+	 * <p>Sets all elements in the <code>hit</code> array to <code>false</code>.</p>
+	 */
 	public Cruiser() {
 		length = 3;
 		for(int i=0; i<hit.length; i++) {
@@ -18,6 +22,11 @@ public class Cruiser extends Ship {
 		}
 	}
 	
+	/**
+	 * Returns this <code>Ship's</code> type.
+	 * 
+	 * @return "Cruiser"
+	 */
 	@Override
 	public String getShipType() {
 		return "Cruiser";

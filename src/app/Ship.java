@@ -228,7 +228,7 @@ public class Ship {
 	 * 
 	 * @param row     shot row.
 	 * @param column  shot column.
-	 * @return  <code>true</code> if the shot hit a part of this Ship AND this Ship is not sunk. 
+	 * @return <code>true</code> if the shot hit a part of this Ship AND this Ship is not sunk.
 	 */
 	public boolean shootAt(int row, int column) {
 		if(!isSunk()) {
@@ -251,7 +251,7 @@ public class Ship {
 	/**
 	 * Returns whether or not this Ship has been sunk.
 	 * 
-	 * @return  <code>true</code> if this Ship has been sunk and false otherwise.
+	 * @return <code>true</code> if this Ship has been sunk and false otherwise.
 	 */
 	public boolean isSunk() {
 		// Goes through the hit array for the length of this particular Ship.
@@ -290,7 +290,9 @@ public class Ship {
 	}
 	
 	/**
-	 * Returns "S" to denote a (non-EmptySea) Ship.
+	 * <p>Returns "S" to denote a (non-EmptySea) Ship.</p>
+	 * <p>This symbol is then used in the <code>Ocean</code>'s <code>print</code> method to determine if it is
+	 * a real <code>Ship</code>, and if so determine its state by invoking various methods.</p>
 	 * 
 	 * @return "S"
 	 */
