@@ -147,9 +147,9 @@ public class Ship {
 									return false;
 								}
 							}
-						}
-					}
-				}
+						} // end for
+					} // end if
+				} // end for
 				// Would only get to this stage if this Ship's proposed location and orientation in the given Ocean
 				// was legal. Returns true, since the Ship also does not exceed the Ocean's boundaries.
 				return true;
@@ -168,9 +168,9 @@ public class Ship {
 									return false;
 								}
 							}
-						}
-					}
-				}
+						} // end for
+					} // end if
+				} // end for
 				// Would only get to this stage if this Ship's proposed location and orientation in the given Ocean
 				// was legal. Returns true, since the Ship also does not exceed the Ocean's boundaries.
 				return true;
@@ -219,7 +219,7 @@ public class Ship {
 	
 	/**
 	 * <p>shoots at this Ship.</p>
-	 * <p>If this Ship is not sunk and shot row and column are part of it, this method:</p>
+	 * <p>If this Ship is not sunk and the shot row and column are part of it, this method:</p>
 	 * <ul>
 	 * <li>Marks the corresponding part of this Ship's {@link #hit} array as <code>true</code>.</li>
 	 * <li>Returns <code>true</code>.</li>
@@ -244,23 +244,37 @@ public class Ship {
 					return true;
 				}
 			}
-		}
+		} // end if
 		return false;
 	}
 	
-	/* Return true if every part of the ship has been hit, false otherwise. (Copied verbatim from instructions) */
-	
+	/**
+	 * Returns whether or not this Ship has been sunk.
+	 * 
+	 * @return  <code>true</code> if this Ship has been sunk and false otherwise.
+	 */
 	public boolean isSunk() {
+		// Goes through the hit array for the length of this particular Ship.
+		// If any part of this ship is not hit, returns false.
 		for(int i=0; i<length; i++) {
 			if(hit[i] == false) {
 				return false;
 			}
 		}
+		// Otherwise, returns true.
 		return true;
 	}
 	
-	/* Checks if this place is in the ship and is hit */
+	/**
+	 * Returns whether or not the given place (row and column received as parameters) is part of this Ship and
+	 * has been hit.
+	 * 
+	 * @param row     row to check if hit.
+	 * @param column  column to check if hit.
+	 * @return <code>true</code> if place is hit; <code>false</code> otherwise.
+	 */
 	public boolean isPlaceHit(int row, int column) {
+		// If place is part of this Ship and is hit (corresponding hit element has the value true), returns true.
 		if(horizontal) {
 			if(bowRow == row && bowColumn <= column && bowColumn+length >= column && hit[column - bowColumn]) {
 				return true;
@@ -271,18 +285,18 @@ public class Ship {
 				return true;
 			}
 		}
+		// Otherwise, returns false.
 		return false;
 	}
 	
+	/**
+	 * Returns "S" to denote a (non-EmptySea) Ship.
+	 * 
+	 * @return "S"
+	 */
 	@Override
 	public String toString() {
 		return "S";
-		/*if(isSunk()) {
-			return "x";
-		}*/
-		// if()
-		// But how does the toString method know which location to check if it has been hit?
-		// If I am able to use this way, comment out all Ship's subclasses' toString() methods.
 	}
 	
 }

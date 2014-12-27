@@ -15,12 +15,25 @@ import java.util.Random;
  * @since 17th December 2014
  */
 public class Ocean {
-
+	
+	/** 2d array for this Ocean's Ships */
 	private Ship[][] ships = new Ship[10][10];
+	
+	/** The total number of shots fired by the user */
 	private int shotsFired;
+	
+	/** The total number of hits amongst the user's shots */
 	private int hitCount;
+	
+	/** The total number of ships sunk */
 	private int shipsSunk;
 	
+	/**
+	 * <ul>
+	 * <li>Invokes method {@link #initOcean()} to set all Ships in {@link #ships} to <code>EmptySea</code> objects.</li>
+	 * <li>Initialises {@link #shotsFired}, {@link #hitCount} and {@link #shipsSunk} to 0.</li>
+	 * </ul>
+	 */
 	public Ocean() {
 		initOcean();
 		shotsFired = 0;
@@ -28,6 +41,10 @@ public class Ocean {
 		shipsSunk = 0;
 	}
 	
+	/**
+	 * <p>Sets all Ships in {@link #ships} to <code>EmptySea</code> objects.</p>
+	 * <p>Invoked by this class' constructor.</p>
+	 */
 	private void initOcean() {
 		for(int row=0; row<ships.length; row++) {
 			for(int col=0; col<ships[row].length; col++) {
@@ -36,23 +53,42 @@ public class Ocean {
 		}
 	}
 	
-	/* Returns the number of shots fired (in this game). */
+	/**
+	 * Returns the total number of shots fired by the user.
+	 * 
+	 * @return shotsFired
+	 */
 	public int getShotsFired() {
 		return shotsFired;
 	}
 	
-	/* Returns the number of hits recorded (in this game). All hits are counted, not just the first time a given square is hit. */
+	/**
+	 * <p>Returns the number of hits amongst the user's shots.</p>
+	 * <p>All hits are counted, not just the first time a given square is hit.</p>
+	 * 
+	 * @return hitCount
+	 */
 	public int getHitCount() {
 		return hitCount;
 	}
 	
-	/* Returns the number of ships sunk (in this game). */
+	/**
+	 * Returns the total number of ships sunk
+	 * 
+	 * @return shipsSunk
+	 */
 	public int getShipsSunk() {
 		return shipsSunk;
 	}
 	
-	/* Returns true if all ships have been sunk, otherwise false. */
+	/**
+	 * Returns whether or not all the ships have been sunk.
+	 * 
+	 * @return <code>true</code> if all ships have been sunk, and <code>false</code> otherwise.
+	 */
 	public boolean isGameOver() {
+		// For all elements in the ships array, if any element is occupied by a real ship and it is
+		// not sunk, returns false. 
 		for(int row=0; row<ships.length; row++) {
 			for(int col=0; col<ships[row].length; col++) {
 				if(isOccupied(row, col) && !ships[row][col].isSunk()) {
@@ -60,14 +96,28 @@ public class Ocean {
 				}
 			}
 		}
+		// Otherwise returns true.
 		return true;
 	}
 	
-	/* For unit testing only */
+	/**
+	 * For unit testing only. Returns the {@link #ships} array.
+	 * 
+	 * @return ships
+	 */
 	public Ship[][] getShipArray() {
 		return ships;
 	}
 	
+	/**
+	 * <p>Returns the <code>Ship</code> in the location sent as arguments (<code>row</code> and <code>column</code>)</p>
+	 * <p>If <code>row</code> and <code>column</code> are outside </p> the bounds of the {@link #ships} array,
+	 * returns a new <code>Ship</code> to indicate something went wrong.
+	 * 
+	 * @param row     Required <code>Ship</code>'s row
+	 * @param column  Required <code>Ship</code>'s column
+	 * @return <code>Ship</code> in required location, or new <code>Ship</code> if location is out of bounds.  
+	 */
 	public Ship getShipInLocation(int row, int column) {
 		if(row >= 0 && row <= 9 && column >= 0 && column <= 9) {
 			return ships[row][column];
@@ -75,6 +125,16 @@ public class Ocean {
 		return new Ship();
 	}
 	
+	/**
+	 * <p>Sets the <code>Ship</code> sent as an argument in the <code>row</code> and <code>column</code>
+	 * sent as arguments; only if the row and column are not outside </p> the bounds of the {@link #ships} array</p>
+	 * <p>Returns whether or not the operation was legal and performed.</p>
+	 * 
+	 * @param ship    <code>Ship</code> to set in location.
+	 * @param row     <code>row</code> to set the <code>Ship</code> in.
+	 * @param column  <code>column</code> to set the <code>Ship</code> in.
+	 * @return whether or not the operation was legal and performed.
+	 */
 	public boolean setShipInLocation(Ship ship, int row, int column) {
 		if(row >= 0 && row <= 9 && column >= 0 && column <= 9) {
 			ships[row][column] = ship;
@@ -83,22 +143,35 @@ public class Ocean {
 		return false;
 	}
 	
-	/* Place all ten ships randomly on the (initially empty)
-	ocean. Place larger ships before smaller ones, or you may end up with no legal
-	place to put a large ship. You will want to use the Random class in the java.util
-	package, so look that up in the Java API. */
+	/**
+	 * Randomly places the following <code>Ships</code> (in the following order) in the
+	 * ocean (in the {@link #ships} array):
+	 * <ul>
+	 * <li>1 <code> Battleship</code></li>
+	 * <li>2 <code>Cruiser</code>s</li>
+	 * <li>3 <code>Destroyer</code>s</li>
+	 * <li>4 <code>Submarine</code>s</li>
+	 * </ul>
+	 * 
+	 * @param testing  Whether or not to turn on testing mode. Testing mode prints the <code>Ships</code>
+	 * that have been placed, their locations and their orientation.
+	 */
 	public void placeAllShipsRandomly(boolean testing) {
 		Random rand;
 		int counter;
 		int row;
 		int col;
 		boolean horizontal;
+		// Places 10 Ships into the shipArray: 1 Battleship, 2 Cruisers, 3 Destroyers and 4 Submarines.
 		Ship[] shipArray = generateShipFleetArray();
 		
+		// For all Ships in the shipArray
 		for(int i=0; i<shipArray.length; i++) {
 			rand = new Random();
 			counter = 0;
 			
+			// Generates random row, column and orientation - while these are illegal according to Ship's
+			// method okToPlaceShipAt.
 			do {
 				counter++;
 				row = rand.nextInt(10);
@@ -107,19 +180,24 @@ public class Ocean {
 			}
 			while(!shipArray[i].okToPlaceShipAt(row, col, horizontal, this) && counter <= 1000);
 
-			// This prevents an infinite loop. (Although after through testing this method doesn't seem to take longer
-			// than 50 loops to find a legal random place for any ship)
+			// If counter has reached 1000 tries of finding a legal location and orientation for the current Ship
+			// and the 1000th try is still illegal:
+			// (This prevents an infinite loop. [Although after through testing this method it doesn't seem
+			// to take longer than 50 loops to find a legal random place for any Ship])
 			if(counter == 1000 && !shipArray[i].okToPlaceShipAt(row, col, horizontal, this)) {
 				System.out.println("Error placing ship in ocean. Please restart the game.");
 				System.exit(1);
 			}
+			// Otherwise, uses Ship's placeShipAt method to place the current Ship in the found legal location
+			// and orientation. If testing is turned on, displays the Ship that have been placed, its location
+			// and its orientation.
 			else {
 				shipArray[i].placeShipAt(row, col, horizontal, this);
 				if(testing) {
 					System.out.println("For testing: " + shipArray[i].getShipType() + " placed " + (shipArray[i].isHorizontal() ? "horizontally" : "vertically") + " in " + shipArray[i].getBowRow() + ", " + shipArray[i].getBowColumn());
 				}
 			}
-		}
+		} // end for
 	}
 	
 	private Ship[] generateShipFleetArray() {
